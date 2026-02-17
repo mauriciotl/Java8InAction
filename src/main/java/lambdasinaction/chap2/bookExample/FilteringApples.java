@@ -1,4 +1,4 @@
-package lambdasinaction.chap2;
+package lambdasinaction.chap2.bookExample;
 
 import java.util.*;
 
@@ -6,7 +6,10 @@ public class FilteringApples{
 
 	public static void main(String ... args){
 
-		List<Apple> inventory = Arrays.asList(new Apple(80,"green"), new Apple(155, "green"), new Apple(120, "red"));	
+		List<Apple> inventory = Arrays.asList(
+				new Apple(80,"green"),
+				new Apple(155, "green"),
+				new Apple(120, "red"));
 
 		// [Apple{color='green', weight=80}, Apple{color='green', weight=155}]
 		List<Apple> greenApples = filterApplesByColor(inventory, "green");
@@ -16,11 +19,16 @@ public class FilteringApples{
 		List<Apple> redApples = filterApplesByColor(inventory, "red");
 		System.out.println(redApples);
 
-		// [Apple{color='green', weight=80}, Apple{color='green', weight=155}]
+
+		/**
+		 * With predicates:
+		 */
+
+		//Looks for green apple: AppleColorPredicate
 		List<Apple> greenApples2 = filter(inventory, new AppleColorPredicate());
 		System.out.println(greenApples2);
 
-		// [Apple{color='green', weight=155}]
+		// Looks for bigger than 150
 		List<Apple> heavyApples = filter(inventory, new AppleWeightPredicate());
 		System.out.println(heavyApples);
 
@@ -28,15 +36,34 @@ public class FilteringApples{
 		List<Apple> redAndHeavyApples = filter(inventory, new AppleRedAndHeavyPredicate());
 		System.out.println(redAndHeavyApples);
 
-		// [Apple{color='red', weight=120}]
-		List<Apple> redApples2 = filter(inventory, new ApplePredicate() {
-			public boolean test(Apple a){
-				return a.getColor().equals("red"); 
-			}
-		});
+
+		/**
+		 * THE FOLLOWING ONE IS VERY COOL,  we are passing the predicate interface and
+		 * creating the implementation in the same line:
+		 * 1. We are creating an instance of the interface and implementing its
+		 * 		abstract method, right there.
+		 *
+		 * 	So an appropriate name for the list variable should be aligned with the
+		 * 	filter or implementation that we are applying, in order that everything makes sense;
+		 * 	both the name and filter implementation.
+		 */
+		List<Apple> redApples2 = filter(inventory, new ApplePredicate()
+			{
+				public boolean test(Apple a)
+					{
+						return a.getColor().equals("red");
+					} //Ends predicate method implementation.
+			} //Ends the ApplePredicate class.
+		);//Ends passing parameters to the filter method.
+
 		System.out.println(redApples2);
 
-	}
+
+	}//Ends main method.
+
+
+	//The following are standard Java 7 methods.
+
 
 	public static List<Apple> filterGreenApples(List<Apple> inventory){
 		List<Apple> result = new ArrayList<>();
@@ -69,7 +96,30 @@ public class FilteringApples{
 	}
 
 
-	public static List<Apple> filter(List<Apple> inventory, ApplePredicate p){
+
+	/**
+	 * The third attempt:
+	 *
+	 * 2.2. Behavior parameterization
+	 *
+	 * The third attempt is about using a Predicate, up to now this is very similar to
+	 * the Strategy pattern, except that a predicate is the following:
+	 *
+	 * We call this a predicate (that is, a function that returns a boolean).
+	 *
+	 *  VERY IMPORTANT. Of course this is all possible, meaning passing a method as a parameter of a method per se (itself),
+	 *  thanks to java 8, that now allows that.
+	 */
+
+
+	/**
+	 * The following is the golden method, the one that will be using the predicate interface,
+	 * later when we call it, we will send the required implementation or create one on the fly,
+	 * how cool is that.
+	 */
+
+	public static List<Apple> filter(List<Apple> inventory, ApplePredicate p)
+	{
 		List<Apple> result = new ArrayList<>();
 		for(Apple apple : inventory){
 			if(p.test(apple)){
@@ -77,7 +127,11 @@ public class FilteringApples{
 			}
 		}
 		return result;
-	}       
+
+	}//end method.
+
+
+
 
 	public static class Apple {
 		private int weight = 0;
@@ -110,7 +164,10 @@ public class FilteringApples{
 					", weight=" + weight +
 					'}';
 		}
-	}
+	}//Ends inner Apple class.
+
+
+	//The predicates interface and implementations.
 
 	interface ApplePredicate{
 		public boolean test(Apple a);
@@ -118,11 +175,13 @@ public class FilteringApples{
 
 	static class AppleWeightPredicate implements ApplePredicate{
 		public boolean test(Apple apple){
-			return apple.getWeight() > 150; 
+
+			return apple.getWeight() > 150;
 		}
 	}
 	static class AppleColorPredicate implements ApplePredicate{
 		public boolean test(Apple apple){
+
 			return "green".equals(apple.getColor());
 		}
 	}
@@ -133,4 +192,7 @@ public class FilteringApples{
 					&& apple.getWeight() > 150; 
 		}
 	}
+
+
+
 }
