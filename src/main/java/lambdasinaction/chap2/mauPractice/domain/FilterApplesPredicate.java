@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FilterApplesPredicate {
 
-    // This class uses Apple, does not have Apple, pure functionality.
+    // This class uses Apple and the ApplePredicate, does not have Apple, pure functionality.
 
     //**********************************************************
     // The following is the Java 8 method related to Predicate:

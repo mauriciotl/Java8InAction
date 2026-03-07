@@ -50,13 +50,17 @@ public class AppleApplication {
 
         /**
          * THE FOLLOWING ONE IS VERY COOL,  we are passing the predicate interface and
-         * creating the implementation in the same line:
+         * inline implementation:
          * 1. We are creating an instance of the interface and implementing its
          * 		abstract method, right there.
          *
-         * 	So an appropriate name for the list variable should be aligned with the
+         * 	So an appropriate name for the filter-list variable should be aligned with the
          * 	filter or implementation that we are applying, in order that everything makes sense;
          * 	both the method's name and filter implementation.
+         *
+         * 	The part new ApplePredicate() { ... } is an anonymous class.
+         *  It creates an unnamed (anonymous) class that implements the ApplePredicate interface right
+         *  at the place where it's used.
          */
 
         List<Apple> java8RedApples = filterApplesPredicate.filter(appleInventory, new ApplePredicate()
