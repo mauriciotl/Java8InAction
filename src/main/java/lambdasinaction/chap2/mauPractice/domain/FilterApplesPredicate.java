@@ -10,7 +10,7 @@ public class FilterApplesPredicate {
     // This class uses Apple and the ApplePredicate, does not have Apple, pure functionality.
 
     //**********************************************************
-    // The following is the Java 8 method related to Predicate:
+    // The following is the Java 7 method related to Predicate:
     //**********************************************************
 
     /**

@@ -9,9 +9,9 @@ public interface ApplePredicate {
     //an Apple this time. Another difference is that The Strategy interface
     // is free to be used
     //as an Instance Variable in any object.
-    //Also, the Strategy Patter is more aimed to add flexible functionality
+    //Also, the Strategy Pattern is more aimed to add flexible functionality
     //to a subtypes from a main/father class, it would be Apple in this case,
-    //But from what I can se up to now the Predicate will provide different
+    //But from what I can see up to now the Predicate will provide different
     //functionality for a Specific Object and tight to it.
     boolean test(Apple apple);
 

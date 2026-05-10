@@ -8,7 +8,7 @@ import java.util.List;
 public class FilterPredicateGeneric<T> {
 
 
-    public List<T> filter(List<T> list, PredicateGeneric<T> p){
+    public static <T> List<T> filter(List<T> list, PredicateGeneric<T> p){
 
         List<T> result = new ArrayList<>();
 

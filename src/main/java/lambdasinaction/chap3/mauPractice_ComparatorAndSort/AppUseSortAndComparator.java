@@ -1,8 +1,8 @@
-package lambdasinaction.chap2.mauPractice04_GenericsComparator;
+package lambdasinaction.chap3.mauPractice_ComparatorAndSort;
 
-import lambdasinaction.chap2.mauPractice04_GenericsComparator.domain.Apple;
-import lambdasinaction.chap2.mauPractice04_GenericsComparator.domain.MySortGeneric;
-import lambdasinaction.chap2.mauPractice04_GenericsComparator.interfaces.MyComparatorGeneric;
+import lambdasinaction.chap3.mauPractice_ComparatorAndSort.domain.Apple;
+import lambdasinaction.chap3.mauPractice_ComparatorAndSort.domain.MySortGeneric;
+import lambdasinaction.chap3.mauPractice_ComparatorAndSort.interfaces.MyComparatorGeneric;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ public class AppUseSortAndComparator {
         appleInventory.add(new Apple(80, "green"));
         appleInventory.add(new Apple(155, "green"));
         appleInventory.add(new Apple(120, "red"));
-        appleInventory.add(new Apple(120, "purple"));
 
 
         //Need to sort that previous list
@@ -26,7 +25,7 @@ public class AppUseSortAndComparator {
         MySortGeneric<Apple> mySortGeneric = new MySortGeneric<>();
 
         // Sort by weight in ascending order
-        // Inline implementation through an anonymous class
+        // Implementing a manual comparison
         mySortGeneric.sort(appleInventory, new MyComparatorGeneric<Apple>() {
             @Override
             public int compare(Apple o1, Apple o2) {
@@ -43,6 +42,32 @@ public class AppUseSortAndComparator {
 
         System.out.println("Print the list using the manual comparison" + appleInventory);
 
+
+        appleInventory = new ArrayList<>();
+        appleInventory.add(new Apple(80, "green"));
+        appleInventory.add(new Apple(155, "green"));
+        appleInventory.add(new Apple(120, "red"));
+
+        // Sort by weight in ascending order
+        // Implementing a manual comparison
+        mySortGeneric.sort(appleInventory, (apple01, apple02) -> {
+            if (apple01.getWeight() < apple02.getWeight()) {
+                return -1;  // o1 is smaller
+            } else if (apple01.getWeight() > apple02.getWeight()) {
+                return 1;   // o1 is larger
+            } else {
+                return 0;   // they are equal
+            }
+        });
+
+        System.out.println("Print the list using the manual comparison and lambda" + appleInventory);
+
+
+
+
+
+
+        //Need to sort that previous list
 
         MySortGeneric<Apple> mySortGeneric_02 = new MySortGeneric<>();
 
@@ -70,22 +95,8 @@ public class AppUseSortAndComparator {
         System.out.println(appleInventory);
 
 
-        //Using lambda expression instead sort by color:
-
-        List<Apple> colorList =  mySortGeneric_02.sort(appleInventory,
-                (a1, a2) -> a1.getColor().compareTo(a2.getColor()));
 
 
-        System.out.println("The color list ASC order, by lambda is: "+  colorList);
-
-
-        //Using lambda expression instead sort by color:
-
-        List<Apple> colorListWeightDesc =  mySortGeneric_02.sort(appleInventory,
-                (a1, a2) -> a2.getWeight().compareTo(a1.getWeight()));
-
-
-        System.out.println("The color list colorListWeightDesc, by lambda is: "+  colorListWeightDesc);
 
 
 

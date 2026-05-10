@@ -8,6 +8,7 @@ import lambdasinaction.chap2.mauPractice.implementations.AppleRedAndWeight;
 import lambdasinaction.chap2.mauPractice.implementations.AppleWeight;
 import lambdasinaction.chap2.mauPractice.interfaces.ApplePredicate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class AppleApplication {
 
 
         /*
-         * With java 8, Predicates:
+         * Still Java 7 but using: predicates:
          */
 
         List<Apple> java8GreenApples = filterApplesPredicate.filter(appleInventory, new AppleGreen());
@@ -50,7 +51,7 @@ public class AppleApplication {
 
         /**
          * THE FOLLOWING ONE IS VERY COOL,  we are passing the predicate interface and
-         * inline implementation:
+         * inline implementation, using and anonymous class.
          * 1. We are creating an instance of the interface and implementing its
          * 		abstract method, right there.
          *
@@ -74,6 +75,36 @@ public class AppleApplication {
 
         System.out.println("Method, java8RedApples(): " + java8RedApples);
 
+        System.out.println("=== FOLLOWINGS ARE USING LAMBDA ===");
+
+        /**
+         * Following examples for practicing chapter 3,
+         * some examples using java 8 lambda expression
+         *
+         * This is inline implementation (using lambda syntax,
+         * using a functional interface
+         */
+
+        FilterApplesPredicate filterApplesPredicate02 = new FilterApplesPredicate();
+
+        List<Apple> appleRedByLambda = filterApplesPredicate02.filter(
+                appleInventory, (Apple apple) -> apple.getColor().equals("red"));
+
+        System.out.println("Using appleRedByLambda method: " + appleRedByLambda);
+
+//        // Now using Java 8 Method reference syntax
+//        List<Apple> appleRedByLambdaMR = filterApplesPredicate02.filter(
+//                appleInventory, Apple::getColor());
+
+//        System.out.println("Using appleRedByLambdaMR method: " + appleRedByLambdaMR);
+
+//        filterApplesPredicate02 = new FilterApplesPredicate();
+
+        appleRedByLambda = filterApplesPredicate02.filter(
+                appleInventory, (Apple apple) -> apple.getColor().equals("green") &&
+                        apple.getWeight() > 150 );
+
+        System.out.println("Using appleRedByLambda (now green and > 150 ) method: " + appleRedByLambda);
 
     }//Ends main method.
 

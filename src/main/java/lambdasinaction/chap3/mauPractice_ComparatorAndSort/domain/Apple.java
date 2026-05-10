@@ -1,4 +1,4 @@
-package lambdasinaction.chap2.mauPractice04_GenericsComparator.domain;
+package lambdasinaction.chap3.mauPractice_ComparatorAndSort.domain;
 
 public class Apple {
 
