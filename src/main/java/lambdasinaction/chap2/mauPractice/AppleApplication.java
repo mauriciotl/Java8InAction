@@ -1,14 +1,13 @@
 package lambdasinaction.chap2.mauPractice;
 
 import lambdasinaction.chap2.mauPractice.domain.Apple;
-import lambdasinaction.chap2.mauPractice.domain.FilterApplesJava7;
-import lambdasinaction.chap2.mauPractice.domain.FilterApplesPredicate;
+import lambdasinaction.chap2.mauPractice.util.FilterApplesUtil;
+import lambdasinaction.chap2.mauPractice.util.FilterApplesUtilPredicate;
 import lambdasinaction.chap2.mauPractice.implementations.AppleGreen;
 import lambdasinaction.chap2.mauPractice.implementations.AppleRedAndWeight;
 import lambdasinaction.chap2.mauPractice.implementations.AppleWeight;
 import lambdasinaction.chap2.mauPractice.interfaces.ApplePredicate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,33 +19,36 @@ public class AppleApplication {
         List<Apple> appleInventory = Arrays.asList(
                 new Apple(80,"green"),
                 new Apple(155, "green"),
+                new Apple(155, "blue"),
+                new Apple(80, "blue"),
+                new Apple(80, "purple"),
+                new Apple(80, "purple"),
                 new Apple(120, "red"));
 
-        FilterApplesPredicate filterApplesPredicate = new FilterApplesPredicate();
-        FilterApplesJava7 filterApplesJava7 = new FilterApplesJava7();
+        FilterApplesUtil filterApplesUtil = new FilterApplesUtil();
+        FilterApplesUtilPredicate filterApplesUtilPredicate = new FilterApplesUtilPredicate();
+
+        /*
+         * Filer apples by color:
+         */
+        List<Apple> byColorApples = filterApplesUtil.filterApplesByColor(appleInventory, "red");
+        System.out.println("Method, byColorApples(): " + byColorApples);
 
 
         /*
-         * With classic java 7:
-         */
-        List<Apple> java7GreenApples = filterApplesJava7.filterApplesByColor(appleInventory, "red");
-        System.out.println("Method, java7GreenApples(): " + java7GreenApples);
-
-
-        /*
-         * Still Java 7 but using: predicates:
+         * Filer apples by predicate, using predefined implementations:
          */
 
-        List<Apple> java8GreenApples = filterApplesPredicate.filter(appleInventory, new AppleGreen());
-        System.out.println("Method, java8GreenApples(): " + java8GreenApples);
+        List<Apple> byPredicatePredefinedGreenApples = filterApplesUtilPredicate.filter(appleInventory, new AppleGreen());
+        System.out.println("Method, byPredicatePredefinedGreenApples(): " + byPredicatePredefinedGreenApples);
 
 
-        List<Apple> java8HeavyApples = filterApplesPredicate.filter(appleInventory, new AppleWeight());
-        System.out.println("Method, java8HeavyApples(): " + java8HeavyApples);
+        List<Apple> byPredicatePredefinedWeightApples = filterApplesUtilPredicate.filter(appleInventory, new AppleWeight());
+        System.out.println("Method, byPredicatePredefinedWeightApples(): " + byPredicatePredefinedWeightApples);
 
 
-        List<Apple> java8RedAndHeavyApples = filterApplesPredicate.filter(appleInventory, new AppleRedAndWeight());
-        System.out.println("Method, java8RedAndHeavyApples(): " + java8RedAndHeavyApples);
+        List<Apple> byPredicatePredefinedWeightAndColorApples = filterApplesUtilPredicate.filter(appleInventory, new AppleRedAndWeight());
+        System.out.println("Method, byPredicatePredefinedWeightAndColorApples(): " + byPredicatePredefinedWeightAndColorApples);
 
 
         /**
@@ -64,7 +66,7 @@ public class AppleApplication {
          *  at the place where it's used.
          */
 
-        List<Apple> java8RedApples = filterApplesPredicate.filter(appleInventory, new ApplePredicate()
+        List<Apple> redApples = filterApplesUtilPredicate.filter(appleInventory, new ApplePredicate()
             {
                 @Override
                 public boolean test(Apple apple) {
@@ -73,7 +75,7 @@ public class AppleApplication {
             }//Ends the ApplePredicate class.
         );//Ends passing parameters to the filter method.
 
-        System.out.println("Method, java8RedApples(): " + java8RedApples);
+        System.out.println("Method, redApples(): " + redApples);
 
         System.out.println("=== FOLLOWINGS ARE USING LAMBDA ===");
 
@@ -85,22 +87,26 @@ public class AppleApplication {
          * using a functional interface
          */
 
-        FilterApplesPredicate filterApplesPredicate02 = new FilterApplesPredicate();
 
-        List<Apple> appleRedByLambda = filterApplesPredicate02.filter(
+        List<Apple> appleRedByLambda = filterApplesUtilPredicate.filter(
                 appleInventory, (Apple apple) -> apple.getColor().equals("red"));
 
         System.out.println("Using appleRedByLambda method: " + appleRedByLambda);
 
+        /**
+         * Check out why the following method reference will just not worK:
+         *
+         * https://gemini.google.com/app/d6213bdd40416a9c
+         */
+
 //        // Now using Java 8 Method reference syntax
-//        List<Apple> appleRedByLambdaMR = filterApplesPredicate02.filter(
-//                appleInventory, Apple::getColor());
+//        List<Apple> appleRedByMethodReference = filterApplesUtilPredicate.filter(
+//                appleInventory, Apple::getColor().equals("Red"));
+//
+//        System.out.println("Using appleRedByMethodReference method: " + appleRedByMethodReference);
 
-//        System.out.println("Using appleRedByLambdaMR method: " + appleRedByLambdaMR);
 
-//        filterApplesPredicate02 = new FilterApplesPredicate();
-
-        appleRedByLambda = filterApplesPredicate02.filter(
+        appleRedByLambda = filterApplesUtilPredicate.filter(
                 appleInventory, (Apple apple) -> apple.getColor().equals("green") &&
                         apple.getWeight() > 150 );
 

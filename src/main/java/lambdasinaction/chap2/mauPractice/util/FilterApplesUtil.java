@@ -1,9 +1,11 @@
-package lambdasinaction.chap2.mauPractice.domain;
+package lambdasinaction.chap2.mauPractice.util;
+
+import lambdasinaction.chap2.mauPractice.domain.Apple;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterApplesJava7 {
+public class FilterApplesUtil {
 
     // This class uses Apple, does not have Apple, pure functionality.
 

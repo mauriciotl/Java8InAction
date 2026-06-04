@@ -1,11 +1,12 @@
-package lambdasinaction.chap2.mauPractice.domain;
+package lambdasinaction.chap2.mauPractice.util;
 
+import lambdasinaction.chap2.mauPractice.domain.Apple;
 import lambdasinaction.chap2.mauPractice.interfaces.ApplePredicate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterApplesPredicate {
+public class FilterApplesUtilPredicate {
 
     // This class uses Apple and the ApplePredicate, does not have Apple, pure functionality.
 
